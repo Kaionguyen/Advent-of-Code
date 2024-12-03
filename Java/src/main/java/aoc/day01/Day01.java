@@ -35,36 +35,23 @@ public class Day01 implements Day {
 
     @Override
     public String part2(String input) {
-        return input;
-    }
         String[] lines = input.split("\n");
 
-        int[] leftIds = new int[lines.length];
+        int[] list1 = new int[lines.length];
         HashMap<Integer, Integer> freq = new HashMap<Integer, Integer>();
 
         for (int i = 0; i < lines.length; i++) {
-            String[] pair = lines[i].split("\\s+");
+            String[] pair = lines[i].split(" +");
 
-            leftIds[i] = Integer.parseInt(pair[0]);
-            int key = Integer.parseInt(pair[1]);
-
-            if (freq.containsKey(key)) {
-                int cur = freq.get(key);
-                freq.put(key, cur + 1);
-            } else {
-                freq.put(key, 1);
-            }
+            list1[i] = Integer.parseInt(pair[0]);
+            freq.put(Integer.parseInt(pair[1]), freq.getOrDefault(Integer.parseInt(pair[1]), 0) + 1);
         }
 
         int runningSum = 0;
-        for (int i = 0; i < leftIds.length; i++) {
-            Integer count = freq.get(leftIds[i]);
-            if (count != null) {
-                runningSum += leftIds[i] * count;
-            } else {
-                runningSum += leftIds[i];
-            }
+        for (int i = 0; i < list1.length; i++) {
+            runningSum += list1[i] * freq.getOrDefault(list1[i], 0);
         }
 
         return String.valueOf(runningSum);
+    }
 }
